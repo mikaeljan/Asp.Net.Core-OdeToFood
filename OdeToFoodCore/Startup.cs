@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -31,35 +32,19 @@ namespace OdeToFoodCore
                 app.UseDeveloperExceptionPage();
             }
             app.UseFileServer();
-            app.UseMvcWithDefaultRoute();
-                //app.Use(next =>
-                //{
-                //    return async context =>
-                //    {
-                //        logger.LogInformation("Request Incoming");
-                //        if (context.Request.Path.StartsWithSegments("/mym"))
-                //        {
-                //            await context.Response.WriteAsync("Hit!");
-                //            logger.LogInformation("Request Handled");
 
-                //        }
-                //        else
-                //        {
-                //            await next(context);
-                //            logger.LogInformation("Request Outgoing");
+            app.UseMvc(ConfigureRoutes);
 
-                //        }
-                //    };
-                //});
-                //app.UseWelcomePage( new WelcomePageOptions {
-                //        Path="/wp"
-                //    });
-
-                app.Run(async (context) =>
+            app.Run(async (context) =>
             {
                 var greeting = greeter.GetMessageOfTheDay();
                 await context.Response.WriteAsync(greeting);
             });
+        }
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            // Home(Controller)/Index
+            routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
         }
     }
 }
