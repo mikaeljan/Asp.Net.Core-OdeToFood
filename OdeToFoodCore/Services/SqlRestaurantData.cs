@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OdeToFoodCore.Data;
 using OdeToFoodCore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace OdeToFoodCore.Services
 {
@@ -31,6 +32,13 @@ namespace OdeToFoodCore.Services
         public IEnumerable<Restaurant> GetAll()
         {
             return _context.Restaurants.OrderBy(r => r.Name);
+        }
+
+        public Restaurant Update(Restaurant restaurant)
+        {
+            _context.Attach(restaurant).State = EntityState.Modified;
+            _context.SaveChanges();
+            return restaurant;
         }
     }
 }

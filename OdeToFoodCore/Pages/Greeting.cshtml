@@ -1,5 +1,3 @@
-﻿@page
+﻿@page "{name}"
 @model GreetingModel
-<div> Hello!</div>
-@inject IGreeter Greeter
-<div>@Greeter.GetMessageOfTheDay()</div>
+<div>@Model.CurrentGreeting</div>
