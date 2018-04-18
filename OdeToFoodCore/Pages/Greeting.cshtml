@@ -1,0 +1,5 @@
+﻿@page
+@model GreetingModel
+<div> Hello!</div>
+@inject IGreeter Greeter
+<div>@Greeter.GetMessageOfTheDay()</div>
