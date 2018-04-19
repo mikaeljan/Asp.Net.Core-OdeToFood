@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -43,10 +44,18 @@ namespace OdeToFoodCore
             {
                 app.UseDeveloperExceptionPage();
             }
-            //To enforce SSL redirect which was enabled in Debug section
-            app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
+            app.UseNodeModules(env.ContentRootPath);
 
+            //To enforce SSL redirect which was enabled in Debug section
+            //app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
+            //What
             app.UseMvc(ConfigureRoutes);
+            //app.Run(async (context) =>
+            //{
+            //    var greeting = greeter.GetMessageOfTheDay();
+            //    context.Response.ContentType = "text/plain";
+            //    await context.Response.WriteAsync($"Not Found");
+            //});
         }
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
