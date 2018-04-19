@@ -14,9 +14,12 @@
         <div>@DateTime.Now.Year &copy Michal Janek</div>
         @RenderSection("footerInfo", required: false)
 
-        @*Toto je to iste nizsie*@ 
+        @*Toto je to iste nizsie*@
         @*@await Component.InvokeAsync("Greeter")*@
         <vc: greeter></vc:>
     </footer>
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>
