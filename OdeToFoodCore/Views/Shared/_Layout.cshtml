@@ -12,6 +12,10 @@
     <footer>
         <div>@DateTime.Now.Year &copy Michal Janek</div>
         @RenderSection("footerInfo", required: false)
+
+        @*Toto je to iste nizsie*@ 
+        @*@await Component.InvokeAsync("Greeter")*@
+        <vc: greeter></vc:>
     </footer>
 </body>
 </html>
