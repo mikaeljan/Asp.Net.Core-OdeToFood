@@ -17,9 +17,28 @@
         @*Toto je to iste nizsie*@
         @*@await Component.InvokeAsync("Greeter")*@
         <vc: greeter></vc:>
+        @if(User.Identity.IsAuthenticated)
+        {
+            foreach (var identity in User.Identities)
+            {
+                <h3>@identity.Name</h3>
+                <ul>
+                    @foreach (var claim in identity.Claims)
+                    {
+                        <li>@claim.Type  - @claim.Value</li>
+                    }
+                </ul>
+            }
+        } else
+        {
+            <div>You are anonymous.</div>
+
+        }
     </footer>
-    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <environment include="Development">
+        <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    </environment>
 </body>
 </html>

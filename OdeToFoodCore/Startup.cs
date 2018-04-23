@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +27,17 @@ namespace OdeToFoodCore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddOpenIdConnect(options => 
+            {
+                _configuration.Bind("AzureAd", options);
+            })
+            .AddCookie();
+
             //if anything needs a greeter, use IGreeter interface and use it for the whole app
             services.AddSingleton< IGreeter, Greeter >();
             //Connection string here
@@ -44,18 +57,12 @@ namespace OdeToFoodCore
             {
                 app.UseDeveloperExceptionPage();
             }
+            //To enforce SSL redirect which was enabled in Debug section
+            app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
+            app.UseAuthentication();
             app.UseNodeModules(env.ContentRootPath);
 
-            //To enforce SSL redirect which was enabled in Debug section
-            //app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
-            //What
             app.UseMvc(ConfigureRoutes);
-            //app.Run(async (context) =>
-            //{
-            //    var greeting = greeter.GetMessageOfTheDay();
-            //    context.Response.ContentType = "text/plain";
-            //    await context.Response.WriteAsync($"Not Found");
-            //});
         }
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
